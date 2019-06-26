@@ -1,9 +1,8 @@
 class ApplicationController < ActionController::Base
-  def logged?
-    session[:user_id].present? ? true : false
-  end
+  protect_from_forgery with: :exception
 
-  def current_user
-    User.find(session[:user_id])
+  private
+  def authenticate_user!
+    redirect_to users_sing_in_path unless helpers.logged?
   end
 end
